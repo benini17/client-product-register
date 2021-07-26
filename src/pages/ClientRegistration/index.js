@@ -17,7 +17,7 @@ export default function ClientRegistration() {
   // Register
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [cellPhone, setCellphone] = useState('');
   const [CPF, setCPF] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -27,7 +27,7 @@ export default function ClientRegistration() {
   function registerClient() {
     // let data = [];
 
-    let userInfo = { name, email, phone, CPF, address, city, UF, CEP };
+    let userInfo = { name, email, cellPhone, CPF, address, city, UF, CEP };
 
     // data.push(userInfo);
 
@@ -43,21 +43,21 @@ export default function ClientRegistration() {
     }
   }
 
-  function handlePhone(e) {
+  function handleCellphone(e) {
     const re = /^(?=.*[0-9])[- +()0-9]+$/;
 
     if (e.target.value === '' || re.test(e.target.value)) {
       const formattedNumber = formatNumber(e.target.value);
-      setPhone(formattedNumber);
+      setCellphone(formattedNumber);
     } else {
       alert('Por favor coloque números');
     }
 
-    function formatNumber(v) {
-      v = v.replace(/\D/g, '');
-      v = v.replace(/^(\d\d)(\d)/g, '($1) $2 ');
-      v = v.replace(/(\d{4})(\d)/, '$1-$2');
-      return v;
+    function formatNumber(value) {
+      value = value.replace(/\D/g, '');
+      value = value.replace(/^(\d\d)(\d)/g, '($1) $2 ');
+      value = value.replace(/(\d{4})(\d)/, '$1-$2');
+      return value;
     }
   }
 
@@ -105,14 +105,14 @@ export default function ClientRegistration() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label htmlFor="phone">Celular</label>
+        <label htmlFor="cellphone">Celular</label>
         <input
           type="text"
-          name="phone"
-          id="phone"
+          name="cellphone"
+          id="cellphone"
           placeholder="Insira o Celular"
-          value={phone}
-          onChange={handlePhone}
+          value={cellPhone}
+          onChange={handleCellphone}
           maxLength="16"
         />
 
