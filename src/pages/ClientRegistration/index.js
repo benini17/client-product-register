@@ -54,20 +54,34 @@ export default function ClientRegistration() {
     }
 
     function formatNumber(value) {
-      value = value.replace(/\D/g, '');
-      value = value.replace(/^(\d\d)(\d)/g, '($1) $2 ');
-      value = value.replace(/(\d{4})(\d)/, '$1-$2');
+      value = value
+        .replace(/\D/g, '')
+        .replace(/^(\d\d)(\d)/g, '($1) $2 ')
+        .replace(/(\d{4})(\d)/, '$1-$2');
       return value;
     }
   }
 
   function handleCPF(e) {
-    const re = /^[0-9\b]+$/;
+    const re = /^(?=.*[0-9])[- . +()0-9]+$/;
+
+    const formattedNumber = formatNumber(e.target.value);
+    setCPF(formattedNumber);
 
     if (e.target.value === '' || re.test(e.target.value)) {
-      setCPF(e.target.value);
+      const formattedNumber = formatNumber(e.target.value);
+      setCPF(formattedNumber);
     } else {
       alert('Por favor coloque números');
+    }
+
+    function formatNumber(value) {
+      value = value
+        .replace(/\D/g, '')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      return value;
     }
   }
 
@@ -124,6 +138,7 @@ export default function ClientRegistration() {
           placeholder="Insira o CPF"
           value={CPF}
           onChange={handleCPF}
+          maxLength="14"
         />
 
         <label htmlFor="address">Endereço</label>
