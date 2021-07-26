@@ -1,0 +1,50 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  background-color: black;
+}
+
+header p {
+  color: white;
+}
+
+footer {
+  background-color: black;
+}
+
+footer p {
+  color: white;
+  position: relative;
+}
+
+#ecommerceImg {
+  width: 100%;
+  position: relative;
+}
+
+#clientRegister {
+  position: absolute;
+  left: 50vw;
+  top: 30vh;
+  width: 150px;
+  height: 40px;
+}
+
+#productRegister {
+  position: absolute;
+  left: 50vw;
+  top: 40vh;
+  width: 150px;
+  height: 40px;
+}
+
+#inputContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  text-align: center;
+  justify-content: space-evenly;
+}

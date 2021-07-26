@@ -1,0 +1,14 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  background-color: burlywood;
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
