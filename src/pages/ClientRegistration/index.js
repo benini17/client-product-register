@@ -42,13 +42,22 @@ export default function ClientRegistration() {
       alert('Por favor coloque letras');
     }
   }
+
   function handlePhone(e) {
-    const re = /^[0-9\b]+$/;
+    const re = /^(?=.*[0-9])[- +()0-9]+$/;
 
     if (e.target.value === '' || re.test(e.target.value)) {
-      setPhone(e.target.value);
+      const formattedNumber = formatNumber(e.target.value);
+      setPhone(formattedNumber);
     } else {
       alert('Por favor coloque números');
+    }
+
+    function formatNumber(v) {
+      v = v.replace(/\D/g, '');
+      v = v.replace(/^(\d\d)(\d)/g, '($1) $2 ');
+      v = v.replace(/(\d{4})(\d)/, '$1-$2');
+      return v;
     }
   }
 
@@ -96,14 +105,15 @@ export default function ClientRegistration() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label htmlFor="phone">Telefone</label>
+        <label htmlFor="phone">Celular</label>
         <input
           type="text"
           name="phone"
           id="phone"
-          placeholder="Insira o Telefone"
+          placeholder="Insira o Celular"
           value={phone}
           onChange={handlePhone}
+          maxLength="16"
         />
 
         <label htmlFor="CPF">CPF</label>
