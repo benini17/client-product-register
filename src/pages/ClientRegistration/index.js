@@ -86,12 +86,18 @@ export default function ClientRegistration() {
   }
 
   function handleCEP(e) {
-    const re = /^[0-9\b]+$/;
+    const re = /^(?=.*[0-9])[-0-9]+$/;
 
     if (e.target.value === '' || re.test(e.target.value)) {
-      setCEP(e.target.value);
+      const formattedNumber = formatNumber(e.target.value);
+      setCEP(formattedNumber);
     } else {
       alert('Por favor coloque números');
+    }
+
+    function formatNumber(value) {
+      value = value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2');
+      return value;
     }
   }
 
@@ -139,6 +145,17 @@ export default function ClientRegistration() {
           value={CPF}
           onChange={handleCPF}
           maxLength="14"
+        />
+
+        <label>CEP</label>
+        <input
+          type="text"
+          name="CEP"
+          id="CEP"
+          placeholder="Insira o CEP"
+          value={CEP}
+          onChange={handleCEP}
+          maxLength="9"
         />
 
         <label htmlFor="address">Endereço</label>
@@ -192,16 +209,6 @@ export default function ClientRegistration() {
           <option value="TO">TO</option>
           <option value="DF">DF</option>
         </select>
-
-        <label>CEP</label>
-        <input
-          type="text"
-          name="CEP"
-          id="CEP"
-          placeholder="Insira o CEP"
-          value={CEP}
-          onChange={handleCEP}
-        />
 
         <button onClick={registerClient}>Cadastrar Cliente</button>
         <button onClick={goToClientList}>Clientes Cadastrados</button>
