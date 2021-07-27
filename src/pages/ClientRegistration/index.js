@@ -151,7 +151,6 @@ export default function ClientRegistration() {
           id="name"
           placeholder="Insira o nome"
           value={name}
-          // onChange={(e) => setName(e.target.value)}
           onChange={handleName}
         />
 
