@@ -17,7 +17,7 @@ export default function ClientRegistration() {
   // Register
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [cellPhone, setCellphone] = useState('');
   const [CPF, setCPF] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -27,7 +27,7 @@ export default function ClientRegistration() {
   function registerClient() {
     // let data = [];
 
-    let userInfo = { name, email, phone, CPF, address, city, UF, CEP };
+    let userInfo = { name, email, cellPhone, CPF, address, city, UF, CEP };
 
     // data.push(userInfo);
 
@@ -42,33 +42,62 @@ export default function ClientRegistration() {
       alert('Por favor coloque letras');
     }
   }
-  function handlePhone(e) {
-    const re = /^[0-9\b]+$/;
+
+  function handleCellphone(e) {
+    const re = /^(?=.*[0-9])[- +()0-9]+$/;
 
     if (e.target.value === '' || re.test(e.target.value)) {
-      setPhone(e.target.value);
+      const formattedNumber = formatNumber(e.target.value);
+      setCellphone(formattedNumber);
     } else {
       alert('Por favor coloque números');
+    }
+
+    function formatNumber(value) {
+      value = value
+        .replace(/\D/g, '')
+        .replace(/^(\d\d)(\d)/g, '($1) $2 ')
+        .replace(/(\d{4})(\d)/, '$1-$2');
+      return value;
     }
   }
 
   function handleCPF(e) {
-    const re = /^[0-9\b]+$/;
+    const re = /^(?=.*[0-9])[- . +()0-9]+$/;
+
+    const formattedNumber = formatNumber(e.target.value);
+    setCPF(formattedNumber);
 
     if (e.target.value === '' || re.test(e.target.value)) {
-      setCPF(e.target.value);
+      const formattedNumber = formatNumber(e.target.value);
+      setCPF(formattedNumber);
     } else {
       alert('Por favor coloque números');
+    }
+
+    function formatNumber(value) {
+      value = value
+        .replace(/\D/g, '')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      return value;
     }
   }
 
   function handleCEP(e) {
-    const re = /^[0-9\b]+$/;
+    const re = /^(?=.*[0-9])[-0-9]+$/;
 
     if (e.target.value === '' || re.test(e.target.value)) {
-      setCEP(e.target.value);
+      const formattedNumber = formatNumber(e.target.value);
+      setCEP(formattedNumber);
     } else {
       alert('Por favor coloque números');
+    }
+
+    function formatNumber(value) {
+      value = value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2');
+      return value;
     }
   }
 
@@ -96,14 +125,15 @@ export default function ClientRegistration() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label htmlFor="phone">Telefone</label>
+        <label htmlFor="cellphone">Celular</label>
         <input
           type="text"
-          name="phone"
-          id="phone"
-          placeholder="Insira o Telefone"
-          value={phone}
-          onChange={handlePhone}
+          name="cellphone"
+          id="cellphone"
+          placeholder="Insira o Celular"
+          value={cellPhone}
+          onChange={handleCellphone}
+          maxLength="16"
         />
 
         <label htmlFor="CPF">CPF</label>
@@ -114,6 +144,18 @@ export default function ClientRegistration() {
           placeholder="Insira o CPF"
           value={CPF}
           onChange={handleCPF}
+          maxLength="14"
+        />
+
+        <label>CEP</label>
+        <input
+          type="text"
+          name="CEP"
+          id="CEP"
+          placeholder="Insira o CEP"
+          value={CEP}
+          onChange={handleCEP}
+          maxLength="9"
         />
 
         <label htmlFor="address">Endereço</label>
@@ -167,16 +209,6 @@ export default function ClientRegistration() {
           <option value="TO">TO</option>
           <option value="DF">DF</option>
         </select>
-
-        <label>CEP</label>
-        <input
-          type="text"
-          name="CEP"
-          id="CEP"
-          placeholder="Insira o CEP"
-          value={CEP}
-          onChange={handleCEP}
-        />
 
         <button onClick={registerClient}>Cadastrar Cliente</button>
         <button onClick={goToClientList}>Clientes Cadastrados</button>
