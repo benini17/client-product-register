@@ -61,6 +61,29 @@ export default function ClientRegistration() {
     }
   }
 
+  function handleEmail(event) {
+    const email = event.target.value;
+
+    const localPart = email.substring(0, email.indexOf('@'));
+    const domain = email.substring(email.indexOf('@') + 1, email.length);
+
+    if (
+      localPart.length >= 1 &&
+      domain.length >= 3 &&
+      localPart.search('@') == -1 &&
+      domain.search('@') == -1 &&
+      localPart.search(' ') == -1 &&
+      domain.search(' ') == -1 &&
+      domain.search('.') != -1 &&
+      domain.indexOf('.') >= 1 &&
+      domain.lastIndexOf('.') < domain.length - 1
+    ) {
+      setEmail(email);
+    } else {
+      alert('E-mail inválido');
+    }
+  }
+
   function handleCellphone(e) {
     const re = /^(?=.*[0-9])[- +()0-9]+$/;
 
@@ -167,6 +190,7 @@ export default function ClientRegistration() {
           placeholder="Insira o E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          onBlur={handleEmail}
         />
 
         <label htmlFor="cellphone">Celular</label>
