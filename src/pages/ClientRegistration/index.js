@@ -27,6 +27,11 @@ export default function ClientRegistration() {
   const [CEP, setCEP] = useState('');
 
   function registerClient() {
+    if (CEP !== 9 || cellPhone !== 16 || CPF !== 14) {
+      alert('Favor colocar as informações válidas ao preencher');
+      return;
+    }
+
     // let data = [];
 
     let userInfo = {
