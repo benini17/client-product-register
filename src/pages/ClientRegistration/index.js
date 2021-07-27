@@ -20,6 +20,8 @@ export default function ClientRegistration() {
   const [cellPhone, setCellphone] = useState('');
   const [CPF, setCPF] = useState('');
   const [address, setAddress] = useState('');
+  const [neighborhood, setNeighborhood] = useState('');
+  const [addAddressDetails, setAddAddressDetails] = useState('');
   const [city, setCity] = useState('');
   const [UF, setUF] = useState('');
   const [CEP, setCEP] = useState('');
@@ -27,7 +29,18 @@ export default function ClientRegistration() {
   function registerClient() {
     // let data = [];
 
-    let userInfo = { name, email, cellPhone, CPF, address, city, UF, CEP };
+    let userInfo = {
+      name,
+      email,
+      cellPhone,
+      CPF,
+      address,
+      neighborhood,
+      addAddressDetails,
+      city,
+      UF,
+      CEP,
+    };
 
     // data.push(userInfo);
 
@@ -101,6 +114,33 @@ export default function ClientRegistration() {
     }
   }
 
+  async function getJSON(event) {
+    const cep = event.target.value;
+
+    if (cep == '') {
+      return;
+    }
+
+    const url = `http://viacep.com.br/ws/${cep}/json/`;
+    const promise = await fetch(url);
+    const data = await promise.json();
+
+    const { bairro, localidade, logradouro, uf, erro } = data;
+
+    if (erro == true) {
+      setNeighborhood('');
+      setCity('');
+      setAddress('');
+      setUF('');
+
+      console.log(erro);
+    } else {
+      setNeighborhood(bairro);
+      setCity(localidade);
+      setAddress(logradouro);
+      setUF(uf);
+    }
+  }
   return (
     <div id="container">
       <form action="">
@@ -111,7 +151,6 @@ export default function ClientRegistration() {
           id="name"
           placeholder="Insira o nome"
           value={name}
-          // onChange={(e) => setName(e.target.value)}
           onChange={handleName}
         />
 
@@ -155,6 +194,7 @@ export default function ClientRegistration() {
           placeholder="Insira o CEP"
           value={CEP}
           onChange={handleCEP}
+          onBlur={getJSON}
           maxLength="9"
         />
 
@@ -166,6 +206,26 @@ export default function ClientRegistration() {
           placeholder="Insira o Endereço"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+        />
+
+        <label htmlFor="neighborhood">Bairro</label>
+        <input
+          type="text"
+          name="neighborhood"
+          id="neighborhood"
+          placeholder="Insira o Bairro"
+          value={neighborhood}
+          onChange={(e) => setNeighborhood(e.target.value)}
+        />
+
+        <label htmlFor="addAddressDetails">Complemento</label>
+        <input
+          type="text"
+          name="addAddressDetails"
+          id="addAddressDetails"
+          placeholder="Insira o Complemento"
+          value={addAddressDetails}
+          onChange={(e) => setAddAddressDetails(e.target.value)}
         />
 
         <label htmlFor="city">Cidade</label>
